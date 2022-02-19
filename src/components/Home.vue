@@ -1,6 +1,6 @@
 <template>
-    <div id="app">
-      <router-view></router-view>
+    <div>
+        <h2>Home页面</h2>
     </div>
 </template>
 
@@ -26,4 +26,3 @@ export default {
 <style scoped lang="less">
 
 </style>
-
