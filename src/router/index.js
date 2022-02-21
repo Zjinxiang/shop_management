@@ -7,15 +7,26 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path:'/',redirect:'/login'
+    path: '/', redirect: '/login'
   },
   {
-    path:'/login',
-    component:Login
+    path: '/login',
+    component: Login
   },
   {
-    path:'/home',
-    component:()=>import('../components/Home.vue')
+    path: '/home',
+    component: () => import('../components/Home.vue'),
+    redirect: '/welcome',
+    children: [
+      {
+        path: '/welcome',
+        component: () => import('../components/Welcome.vue'),
+      },
+      {
+        path: '/users',
+        component: () => import('../components/user/Users.vue'),
+      }
+    ]
   }
 ]
 
@@ -24,11 +35,11 @@ const router = new VueRouter({
 })
 
 //路由守卫
-router.beforeEach((to,from,next)=>{
-  if(to.path=='/login') return next();
+router.beforeEach((to, from, next) => {
+  if (to.path == '/login') return next();
   //获取tokrn
-  let tokenStr=window.sessionStorage.getItem('token')
-  if(!tokenStr) return next('/login');
+  let tokenStr = window.sessionStorage.getItem('token')
+  if (!tokenStr) return next('/login');
   return next()
 })
 

@@ -16,6 +16,11 @@ import VueAxios from 'vue-axios'
 Vue.use(VueAxios,Axios)
 //配置请求的根路径
 Axios.defaults.baseURL='https://lianghj.top:8888/api/private/v1/'
+//添加请求拦截，携带token值
+Axios.interceptors.request.use(config=>{
+  config.headers.Authorization=window.sessionStorage.getItem('token')
+  return config
+})
 // Vue.prototype.$http=Axios
 
 Vue.config.productionTip = false
