@@ -18,6 +18,7 @@ const routes = [
     component: () => import('../components/Home.vue'),
     redirect: '/welcome',
     children: [
+      //用户列表路由
       {
         path: '/welcome',
         component: () => import('../components/Welcome.vue'),
@@ -25,7 +26,16 @@ const routes = [
       {
         path: '/users',
         component: () => import('../components/user/Users.vue'),
-      }
+      },
+      // 权限管理路由
+      {
+        path: '/rights',
+        component: () => import('../components/power/Rights.vue'),
+      },
+      {
+        path: '/roles',
+        component: () => import('../components/power/Roles.vue'),
+      },
     ]
   }
 ]

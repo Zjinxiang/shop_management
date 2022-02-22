@@ -83,6 +83,7 @@
                 type="warning"
                 icon="el-icon-s-help"
                 size="mini"
+                @click="setsetUserRlleFn(scope.row)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -159,6 +160,34 @@
         <span slot="footer">
           <el-button @click="editDialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="revisUserInfo">确 定</el-button>
+        </span>
+      </el-dialog>
+
+      <!-- 分配角色 -->
+      <el-dialog
+        title="分配角色"
+        :visible.sync="setUserRlle"
+        width="50%"
+        @close="close"
+      >
+        <div>
+          <p>当前的用户：{{ userRole.username }}</p>
+          <p>当前的角色：{{ userRole.role_name }}</p>
+          <p>
+            分配新角色：<el-select v-model="newrole" placeholder="请选择">
+              <el-option
+                v-for="item in userRoleList"
+                :key="item.id"
+                :label="item.roleName"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </p>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="setUserRlle = false">取 消</el-button>
+          <el-button type="primary" @click="suresaveRole">确 定</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -260,6 +289,15 @@ export default {
           { validator: checkMobile, trigger: "blur" },
         ],
       },
+
+      //控制分配角色对话框的显示与隐藏
+      setUserRlle: false,
+      //获取分配用户角色数据
+      userRole: {},
+      //角色列表
+      userRoleList: [],
+      //分配新角色
+      newrole: [],
     };
   },
   methods: {
@@ -309,7 +347,6 @@ export default {
         if (!valid) return this.$message.error("添加用户失败");
         //发起添加用户的请求
         let { data: res } = await this.axios.post("users", this.ruleForm);
-        console.log(res);
         if (res.meta.status != 201) return this.$message.error("添加用户失败");
         this.$message.success("添加用户成功");
         //隐藏对话框
@@ -368,19 +405,61 @@ export default {
 
       //点击确定返回值为confirm
       //点击取消返回值为cancel
-      if (comfirmResult !== 'confirm') return this.$message.info("取消了删除");
+      if (comfirmResult !== "confirm") return this.$message.info("取消了删除");
 
-      let{data:res}= await this.axios.delete(`users/${id}`)
-      if(res.meta.status!==200) return this.$message.error("删除用户失败");
-      else{
-        this.$message.success("删除用户成功")
-        this.getUserlist()
+      let { data: res } = await this.axios.delete(`users/${id}`);
+      if (res.meta.status !== 200) return this.$message.error("删除用户失败");
+      else {
+        this.$message.success("删除用户成功");
+        this.getUserlist();
       }
     },
+
+    //分配角色
+    async setsetUserRlleFn(userinfo) {
+      this.userRole = userinfo;
+
+      //获取角色列表
+      let { data: res } = await this.axios.get("roles");
+      if (res.meta.status !== 200)
+        return this.$message.error("获取角色列表失败");
+      this.userRoleList = res.data;
+      //显示分配角色对话框
+      this.setUserRlle = true;
+    },
+
+    //保存并修改角色
+    async suresaveRole() {
+      //判断选择的是否为新角色
+      if (!this.newrole) return this.$message.error("请选择新角色");
+
+      //发送请求
+      let { data: res } = await this.axios.put(
+        `users/${this.userRole.id}/role`,
+        {
+          rid: this.newrole,
+        }
+      );
+      if (res.meta.status !== 200) return this.$message.error("更新角色失败");
+      this.$message.success("更新角色成功");
+
+      //刷新列表
+      this.getUserlist();
+      //关闭对话框
+      this.setUserRlle = false;
+    },
+
+    //清空分配角色
+    close(){
+      this.newrole=''
+    }
   },
   components: {},
 };
 </script>
 
 <style scoped lang="less">
+p {
+  margin-top: 20px;
+}
 </style>
