@@ -23,6 +23,10 @@ Axios.interceptors.request.use(config=>{
 })
 // Vue.prototype.$http=Axios
 
+//导入vue-table-with-tree-grid表格树
+import treeTable from 'vue-table-with-tree-grid'
+Vue.component('tree-table',treeTable)
+
 Vue.config.productionTip = false
 
 new Vue({

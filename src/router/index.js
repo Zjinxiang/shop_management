@@ -36,6 +36,11 @@ const routes = [
         path: '/roles',
         component: () => import('../components/power/Roles.vue'),
       },
+      // 商品管理
+      {
+        path: '/categories',
+        component: () => import('../components/goods/Cate.vue'),
+      },
     ]
   }
 ]
