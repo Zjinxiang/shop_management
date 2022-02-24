@@ -9,7 +9,7 @@
 
     <!-- 卡片 -->
     <el-card>
-      <el-row style="marginbottom: 15px">
+      <el-row style="marginBottom: 15px">
         <el-col>
           <el-button type="primary" @click="showAddDialogVisible"
             >添加分类</el-button
