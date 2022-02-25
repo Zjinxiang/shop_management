@@ -450,9 +450,9 @@ export default {
     },
 
     //清空分配角色
-    close(){
-      this.newrole=''
-    }
+    close() {
+      this.newrole = "";
+    },
   },
   components: {},
 };

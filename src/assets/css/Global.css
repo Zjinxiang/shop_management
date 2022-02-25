@@ -22,3 +22,11 @@ html,body,#app{
 .el-pagination{
     margin-top: 15px;
 }
+
+.el-form-item__label{
+    text-align: center !important
+}
+
+.ql-editor{
+    min-height: 300px;
+}
