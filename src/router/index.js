@@ -53,7 +53,16 @@ const routes = [
         path: '/goods/add',
         component: () => import('../components/goods/Add.vue'),
       },
-      
+      //订单管理
+      {
+        path: '/orders',
+        component: () => import('../components/orders/Orders.vue'),
+      },
+      //数据报表
+      {
+        path: '/reports',
+        component: () => import('../components/reports/Reports.vue'),
+      },
     ]
   }
 ]

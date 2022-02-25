@@ -40,6 +40,7 @@
         :rules="addruleFormRules"
         ref="addruleForm"
         label-width="100px"
+        label-position="top"
       >
         <el-tabs
           :tab-position="'left'"
